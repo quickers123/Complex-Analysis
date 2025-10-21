@@ -1,0 +1,451 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{adjustbox}
+\usetikzlibrary{arrows.meta, automata, positioning,decorations.pathreplacing, decorations.markings}
+
+\title{MATH381 Assignment 2}
+\author{Ben Vickers}
+\date{Due: 11:55 PM, Thursday 5 September 2024}
+
+\begin{document}
+
+\maketitle
+
+\noindent \textbf{Question 1 (4 marks)} Prove using the sequential characterisation of closed sets that the intersection of an \textit{arbitrary} collection of closed subsets of \( \mathbb{C}\) is again closed. That is, prove that if \(F_j \left(j \in J\right)\) are closed subsets of \(\mathbb{C}\) where \(J\) is an arbitrary set of indices, then \(\bigcap_{j \in J} F_j\) is closed.\newline
+
+\noindent \textbf{Solution:}
+\[
+\text{Set }F = \bigcap_{j \in J} F_j = F_1 \cap F_2 \cap \cdots \cap F_m
+\]
+\noindent The specifity of the word arbitrary in relation to the collection of subsets implies $m$ could be infinite. I.e. $J$ is any arbitrary set of indices that is not necessarily finite. \newline
+\linebreak
+To prove that $F$ is closed using the sequential characterisation of closed sets, we can take a sequence, \( \left(z_n\right)_{n=1}^{\infty} \in F\) such that \(z_n \to z \in \mathbb{C}\). We aim to prove that \(z \in F\). \newline
+\linebreak
+We know \(\forall \, j \in J\)  :
+\begin{itemize}
+    \item \(z_n \in F_j \) as \(z_n \in F = \bigcap_{j \in J} F_j \)
+    \item \(F_j \) is closed (as per the question)
+\end{itemize}
+It then follows from the sequential characterisation of closed sets that as \(z_n \) is convergent to some \(z \in \mathbb{C}\), \(z_n \in F_j \,\left(\forall j \in J\right)\) and \(F_j\) is closed that \(z \in F_j\). \newline
+\linebreak
+Then by the properties of the intersection of an arbitrary collection of subsets of \(\mathbb{C}\), as \(z \in F_j \,\, \left(\forall j \in J\right)\), we have \(z \in F =  \bigcap_{j \in J} F_j\)\newline
+\linebreak
+As the following conditions have now been shown to hold: \( \textbf{1)} \, z_n \to z \in \mathbb{C}\quad \textbf{2)}\, z_n \in F \quad \textbf{3)}\, z \in F  \), it follows from the sequential characterisation of closed sets that \(\bigcap_{j \in J} F_j \, \left(= F\right)\) is closed. \(\quad \Box\)\newline
+\linebreak
+\noindent \textbf{Question 2 (5 marks)} Let \( f(z) := ln|z| + iArg(z)\), where ln \( : (0, \infty) \to \mathbb{R}\) is the natural logarithm and \(Arg(z)\) is the principal argument of \(z\). Prove that \(f\) satisfies the Cauchy-Riemann equations on the open upper half-plane.
+\[
+U := \{z: \text{Im}\,z > 0\}\quad \text{which is identified with} \quad \{\left(x,y\right) \in \mathbb{R}^2:y > 0\}
+\]
+\noindent by writing Arg\(\left(x + iy\right)\) as arccot\(\left(\frac{x}{y}\right)\) when \(y > 0\). Recall that the inverse cotangent, arcot is a differentiable function from \(\mathbb{R}\) into \(\left(0,\pi\right)\) with arccot\(^{\prime}\)(t) = \(-\frac{1}{1+t^2}\) for \(t \in \mathbb{R}\).\newline
+\linebreak
+\textbf{Solution:} \newline 
+\linebreak
+We consider the open upper half-plane, \(U := \{z: \text{Im}\,z > 0\}\) as three regions. One region either side of the imaginary axis and another on the imaginary axis. All with imaginary parts greater than 0.\newline
+\[
+\text{I.e. }U = L \cup I \cup R \text{ where:}
+\]
+\begin{itemize}
+    \item  \(L := \{\left(x,y\right): y > 0, x < 0\}\)
+    \item \(R  := \{\left(x,y\right): y > 0, x > 0\}\)
+    \item \(I := \{\left(x,y\right): y > 0, x =0\}\)
+\end{itemize}
+\[\]
+\(\textit{Case 1: } \text{on the open upper left half-plane, } L := \{\left(x,y\right): y > 0, x < 0\}\)
+\begin{center}
+\resizebox{0.8\textwidth}{!}{%
+    \begin{tikzpicture}
+        % Draw the axes
+        \draw[->] (-4,0) -- (2,0) node[below right] {$\text{Re}(z)$};
+        \draw[->] (0,-1) -- (0,3) node[above left] {$\text{Im}(z)$};
+        
+        % Draw the grid lines
+        \draw[dotted] (-4,2) -- (2,2);
+        \draw[dotted] (-2,-1) -- (-2,3);
+        
+        % Draw the point z
+        \coordinate (z) at (-2,2);
+        
+        % Draw the blue line from (0,0) to z
+        \draw[blue, thick] (0,0) -- (z);
+    
+        % Draw the point z and labels
+        \fill (z) circle (3pt);
+        \node at (-2,2) [above left] {$z$};
+        
+        % Draw the dotted lines from the point z
+        %\draw[dotted] (-2,0) -- (-2,2);
+       % \draw[dotted] (0,2) -- (-2,2);
+        
+        % Add labels for x and y coordinates
+        \node at (-2,-0.3) {$x$};
+        \node at (0.3,2) {$y$};
+    
+        % Draw the angle theta
+        \draw[blue, thick] (0.5,0) arc[start angle=0,end angle=135,radius=0.5cm];
+        \node[blue] at (0.5,0.5) {$\theta$};
+        \draw[green, thick] (-0.5,0) arc[start angle=180,end angle=135,radius=0.5cm];
+        \node[green] at (-0.7,0.2) {$\alpha$};
+
+    \end{tikzpicture}
+    }
+\end{center}
+
+\[
+\cot\left(\alpha\right) = \frac{-x}{y}
+\]
+\[
+\implies \alpha = cot^{-1}\left(\frac{-x}{y}\right)
+\]
+\[
+\theta = \text{Arg} \, z = \pi - \alpha = \pi - cot^{-1}\left(\frac{-x}{y}\right) = cot^{-1}\left(\frac{x}{y}\right)
+\]
+\[
+\text{So we now have: } f(z) = ln|z| + i\,Arg\left(z\right) = ln\left(\sqrt{x^2 + y^2}\right) + i\,arccot\left(\frac{x}{y}\right)
+\]
+\[
+\text{[Notice } |z| \subset \left(0,\infty\right) \text{ as } y > 0 \text{ so the domain of } ln \text{ is satisfied.]}
+\]
+\[
+f(z) = Re\left(f(z)\right) + i \cdot Im\left(f(z)\right) = u(x,y) + i \cdot v(x,y)
+\]
+\[
+\text{So we have }u(x,y) = ln\left(\sqrt{x^2 + y^2}\right) \text{ and } v(x,y) = arccot\left(\frac{x}{y}\right)
+\]
+Now differentiating the real and imaginary parts partially with respect to both \(x\) and \(y\) using the chain rule and given derivative of \(arccot\), we obtain:
+\[
+\frac{\partial u(x,y)}{\partial x} = \frac{\frac{1}{2} \cdot 2x\cdot \left(x^2+y^2\right)^{\frac{-1}{2}}}{\sqrt{x^2+y^2}} = \frac{x}{x^2+y^2}
+\]
+\[
+\frac{\partial u(x,y)}{\partial y} = \frac{\frac{1}{2} \cdot 2y\cdot \left(x^2+y^2\right)^{\frac{-1}{2}}}{\sqrt{x^2+y^2}} = \frac{y}{x^2+y^2}
+\]
+\[
+\frac{\partial v(x,y)}{\partial x} = \frac{-1}{1 + \left(\frac{x}{y}\right)^2}\cdot \left(\frac{1}{y}\right) = \frac{-y}{x^2+y^2}
+\]
+\[
+\frac{\partial v(x,y)}{\partial y} = \frac{-1}{1 + \left(\frac{x}{y}\right)^2}\cdot \left(\frac{-x}{y^2}\right) = \frac{x}{x^2+y^2}
+\]
+So the Cauchy-Riemann equations:
+\[
+\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} \quad \text{and} \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}
+\]
+have been satisfied by \(f\) on the open upper left half-plane.
+\[\]
+\(\textit{Case 2: } \text{on the open upper right half-plane, } R := \{\left(x,y\right): y > 0, x > 0\}\)
+\begin{center}
+\resizebox{0.8\textwidth}{!}{%
+    \begin{tikzpicture}
+        % Draw the axes
+        \draw[->] (-2,0) -- (4,0) node[below right] {$\text{Re}(z)$};
+        \draw[->] (0,-1) -- (0,3) node[above left] {$\text{Im}(z)$};
+        
+        % Draw the grid lines
+        \draw[dotted] (-2,2) -- (4,2);
+        \draw[dotted] (2,-1) -- (2,3);
+        
+        % Draw the point z
+        \coordinate (z) at (2,2);
+        
+        % Draw the blue line from (0,0) to z
+        \draw[blue, thick] (0,0) -- (z);
+    
+        % Draw the point z and labels
+        \fill (z) circle (3pt);
+        \node at (2,2) [above right] {$z$};
+        
+        % Draw the dotted lines from the point z
+        %\draw[dotted] (2,0) -- (2,2);
+        %\draw[dotted] (0,2) -- (-2,2);
+        
+        % Add labels for x and y coordinates
+        \node at (2,-0.3) {$x$};
+        \node at (-0.3,2) {$y$};
+    
+        % Draw the angle theta
+        \draw[blue, thick] (0.5,0) arc[start angle=0,end angle=45,radius=0.5cm];
+        \node[blue] at (0.7,0.2) {$\theta$};
+
+    \end{tikzpicture}
+    }
+\end{center}
+
+\[
+\cot\left(\theta\right) = \frac{x}{y}
+\]
+\[
+\implies \theta = \text{Arg} \, z = cot^{-1}\left(\frac{x}{y}\right)
+\]
+\[
+\text{So we now have: } f(z) = ln|z| + i\,Arg\left(z\right) = ln\left(\sqrt{x^2 + y^2}\right) + i\,arccot\left(\frac{x}{y}\right)
+\]
+\[
+\text{[Notice } |z| \subset \left(0,\infty\right) \text{ as } y > 0 \text{ so the domain of } ln \text{ is satisfied.]}
+\]
+\[
+f(z) = Re\left(f(z)\right) + i \cdot Im\left(f(z)\right) = u(x,y) + i \cdot v(x,y)
+\]
+\[
+\text{So we have }u(x,y) = ln\left(\sqrt{x^2 + y^2}\right) \text{ and } v(x,y) = arccot\left(\frac{x}{y}\right)
+\]
+
+\noindent Now differentiating the real and imaginary parts partially with respect to both \(x\) and \(y\) using the chain rule and given derivative of \(arccot\), we obtain:
+\[
+\frac{\partial u(x,y)}{\partial x} = \frac{\frac{1}{2} \cdot 2x\cdot \left(x^2+y^2\right)^{\frac{-1}{2}}}{\sqrt{x^2+y^2}} = \frac{x}{x^2+y^2}
+\]
+
+\[
+\frac{\partial u(x,y)}{\partial y} = \frac{\frac{1}{2} \cdot 2y\cdot \left(x^2+y^2\right)^{\frac{-1}{2}}}{\sqrt{x^2+y^2}} = \frac{y}{x^2+y^2}
+\]
+
+\[
+\frac{\partial v(x,y)}{\partial x} = \frac{-1}{1 + \left(\frac{x}{y}\right)^2}\cdot \left(\frac{1}{y}\right) = \frac{-y}{x^2+y^2}
+\]
+
+\[
+\frac{\partial v(x,y)}{\partial y} = \frac{-1}{1 + \left(\frac{x}{y}\right)^2}\cdot \left(\frac{-x}{y^2}\right) = \frac{x}{x^2+y^2}
+\]
+
+So the Cauchy-Riemann equations:
+
+\[
+\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} \quad \text{and} \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}
+\]
+
+have been satisfied by \(f\) on the open upper right half-plane.\newline
+\linebreak
+\(\textit{Case 3: } \text{The imaginary axis for \(y>0\), } I := \{\left(x,y\right): y > 0, x =0\}\)
+\begin{center}
+\resizebox{0.6\textwidth}{!}{%
+    \begin{tikzpicture}
+        % Draw the axes
+        \draw[->] (-2,0) -- (2,0) node[below right] {$\text{Re}(z)$};
+        \draw[->] (0,-2) -- (0,5) node[above left] {$\text{Im}(z)$};
+        
+        % Draw the grid lines
+        \draw[dotted] (-2,3) -- (2,3);
+        \draw[dotted] (0,-2) -- (0,3);
+        
+        % Draw the point z
+        \coordinate (z) at (0,3);
+        
+        % Draw the blue line from (0,0) to z
+        \draw[blue, thick] (0,0) -- (z);
+    
+        % Draw the point z and labels
+        \fill (z) circle (3pt);
+        \node at (0,3) [above right] {$z$};
+        
+        % Draw the dotted lines from the point z
+        %\draw[dotted] (2,0) -- (2,2);
+        %\draw[dotted] (0,2) -- (-2,2);
+        
+        % Add labels for x and y coordinates
+        \node at (0,-0.3) {$x$};
+        \node at (-0.3,3) {$y$};
+    
+        % Draw the angle theta
+        \draw[blue, thick] (0.5,0) arc[start angle=0,end angle=90,radius=0.5cm];
+        \node[blue] at (0.5,0.5) {$\theta$};
+    \end{tikzpicture}
+    }
+\end{center}
+
+\noindent We have already shown that for all \(y > 0\), if \(x<0\) or \(x>0\) we have:
+\[
+    f(z) = ln|z| + i\,Arg\left(z\right) = ln\left(\sqrt{x^2 + y^2}\right) + i\,arccot\left(\frac{x}{y}\right)
+\]
+\noindent So although at \(x=0\) we have:
+\[
+\text{Arg}z = \theta = \cot^{-1} \left(\frac{x}{y}\right) = \cot^{-1}\left(0\right) = \frac{\pi}{2}
+\]
+\noindent We need still need to consider Arg\(z = arccot\left(\frac{x}{y}\right)\) to allow for differentiating with respect to \(x\). As when differentiating with respect to \(x\) we need to allow for changes in \(x\) around the neighbourhood of \(x=0\).\newline
+\linebreak
+
+\noindent Note this holds as we have now shown that on \(L\) and \(R\) the expression \(arccot\left(\frac{x}{y}\right) = \) Arg\(z\).\newline
+\linebreak
+\noindent Now differentiating the real and imaginary parts partially with respect to both \(x\) and \(y\) using the chain rule and given derivative of \(arccot\), we obtain as previously seen:
+\[
+\frac{\partial u(x,y)}{\partial x} = \frac{\frac{1}{2} \cdot 2x\cdot \left(x^2+y^2\right)^{\frac{-1}{2}}}{\sqrt{x^2+y^2}} = \frac{x}{x^2+y^2}
+\]
+\[
+\frac{\partial u(x,y)}{\partial y} = \frac{\frac{1}{2} \cdot 2y\cdot \left(x^2+y^2\right)^{\frac{-1}{2}}}{\sqrt{x^2+y^2}} = \frac{y}{x^2+y^2}
+\]
+\[
+\frac{\partial v(x,y)}{\partial x} = \frac{-1}{1 + \left(\frac{x}{y}\right)^2}\cdot \left(\frac{1}{y}\right) = \frac{-y}{x^2+y^2}
+\]
+\[
+\frac{\partial v(x,y)}{\partial y} = \frac{-1}{1 + \left(\frac{x}{y}\right)^2}\cdot \left(\frac{-x}{y^2}\right) = \frac{x}{x^2+y^2}
+\]
+\noindent Note that as \(y>0\) all of these terms will be defined.\newline
+\linebreak
+\noindent So the Cauchy-Riemann equations:
+\[
+\frac{\partial u}{\partial x} = \frac{\partial v}{\partial y} \quad \text{and} \quad \frac{\partial u}{\partial y} = -\frac{\partial v}{\partial x}
+\]
+have been satisfied by \(f\) on the open region \(I\) and hence \(f\) satisfies the Cauchy Riemann equations on \(U\) as \(U = L \cup R \cup I.
+ \quad \Box\) \newline
+\linebreak
+ \noindent \textbf{Question 3 (5 marks)} Let \(f : \mathbb{C} \to \mathbb{C}\), and define \(g(z) := \overline{f(\overline{z})}\) for every \(z \in \mathbb{C}\). Suppose that \(f\) is complex-differentiable at some \(c \in \mathbb{C}\). Prove from the definition that g is complex-differentiable at \(\overline{c}\).\newline
+\linebreak
+\textbf{Solution:} \newline 
+\linebreak
+By the complex-differentiability of \(f\) at \(c \in \mathbb{C}\) we have:
+\[
+\lim_{z \to c} \frac{f(z)-f(c)}{z-c} \to L = f^{\prime}(c)
+\]
+
+\noindent To show that g is complex-differentiable at \(\overline{c}\), we need to show:
+\[
+\lim_{z \to \overline{c}} \frac{g(z)-g(\overline{c})}{z-\overline{c}} = g^{\prime}({\overline{c}}) \,\, \text{exists}
+\]
+
+\noindent Given \(g(z) := \overline{f(\overline{z})}: \)
+\[
+g(z) - g(\overline{c}) =  \overline{f(\overline{z})} - \overline{f(\overline{\overline{c}})} = \overline{f(\overline{z})} - \overline{f(c)} 
+\]
+
+\noindent So we seek to evaluate the limit:
+\[
+\lim_{z \to \overline{c}} \frac{\overline{f(\overline{z})} - \overline{f(c)} }{z-\overline{c}}
+\]
+
+\[
+= \lim_{z \to \overline{c}} \overline{\left(\frac{{f(\overline{z})} - {f(c)} }{\overline{z-\overline{c}}}   \right)}
+\]
+
+\[
+= \lim_{z \to \overline{c}} \overline{\left(\frac{{f(\overline{z})} - {f(c)} }{\overline{z}- c}   \right)}
+\]
+
+\noindent Let us make the substitution, \(u = \overline{z}  \implies z = \overline{u} \). \newline
+\linebreak
+\noindent By the continuity of the conjugate function, as \(z \to \overline{c}\), we have \(u \to c \).\newline
+\linebreak
+So we now have:
+\[
+\lim_{u \to c} \overline{\left(\frac{{f(u)} - {f(c)} }{u- c}   \right)}
+\]
+\noindent Now by the continuity of the conjugate function again, we have:
+\[
+\overline{\left[ \lim_{u \to c} {\left(\frac{{f(u)} - {f(c)} }{u- c}   \right)}\right]}
+\]
+\[
+= \overline{f^{\prime}\!\left(c\right)} \in \mathbb{C}
+\]
+
+\noindent So we have shown that g is complex differentiable at \(\overline{c}\) (and furthermore has derivative, \(g^{\prime}(\overline{c}) = \overline{f^{\prime}(c)}\)). \(\quad \Box\)\newline
+\linebreak
+
+\noindent \textbf{Question 4 (4+2 marks)} Consider the power series \(\sum_{n=1}^{\infty} \frac{\left(z-2\right)^n}{n}\).
+\begin{enumerate}[(i)]
+    \item Determine the radius of convergence \(R\) of this power series. You should find that \(R > 0\).
+    \item The general theory learned so far then tells us that this power series defines a holomorphic function \( \lambda \) on \(D(2;R)\). Determine \(\lambda(x)\) for \(x \in \left(2-R, 2 + R\right)\)
+\end{enumerate}
+
+\noindent \(\textbf{Solution (i):}\) To determine the radius of convergence \(R\) of the power series
+\[ \sum_{n=1}^{\infty} \frac{\left(z-2\right)^n}{n}\] 
+We take:
+\[
+\mathscr{C} := \left\{ r \in \left[ 0, \infty \right) : \text{the sequence} \left( \frac{r^n}{n} \right)_{n=1}^{\infty} \text{ is bounded} \right\}
+\]
+\linebreak  
+\[ \text{If }r \in \left[0,1\right] \text{ then } 0\leq r^n \leq 1 \quad \forall n\in\mathbb{N} \]
+\[
+\implies 0 \leq \frac{r^n}{n} \leq \frac{1}{n} \leq 1\]
+\[\]
+So, if \(r \in \left[0,1\right]\) then \(\frac{r^n}{n}\) is bounded by \(\left[0,1\right]\) and hence the interval \(\left[0,1\right]\) is included in \(\mathscr{C}\) \newline
+\linebreak
+\noindent We can intuitively see that for \(r > 1, \frac{r^n}{n}\) will be unbounded as the exponential numerator will rapidly outgrow the linear denominator. \newline
+\linebreak
+\noindent Let us prove this formally by trying to contradict this statement and show the sequence is bounded.
+\[
+\text{If } \frac{r^n}{n} \text{ is bounded then } \exists M \in \mathbb{R} \text{  s.t.  } \forall n \in \mathbb{N}, \, \left| \frac{r^n}{n} \right| \leq M
+\]
+
+\[
+\text{For } r > 1, n \in \mathbb{N}, \frac{r^n}{n} > 0 \implies \frac{r^n}{n} \leq M 
+\]
+
+\[
+\implies r^n \leq nM
+\]
+
+\[\text{Set } r := 1 + \alpha \text{ so }\alpha > 2\]
+
+
+
+\[\text{Then }r^n = \left(1+\alpha\right)^n > \frac{n(n-1)}{2}\alpha^2 \quad \forall \, \alpha > 2 \text{ and }n \in \mathbb{N}\]
+
+\noindent It is again trivial from this inequality that \(\frac{r^n}{n} > \left(n-1\right)\cdot\frac{\alpha^2}{2}\) and hence \(\frac{r^n}{n}\) is unbounded. However, again let us be slightly more formal. \newline
+\linebreak
+\noindent If we can show that there exists an \(n\) such that \(\frac{n(n-1)}{2}\alpha^2 > nM \) then we will have a contradiction to the statement that the sequence is bounded.\newline
+\linebreak
+Rearranging we get:
+\[n > \frac{2M}{\alpha^2} + 1 = \frac{2M}{\left(r-1\right)^2} + 1 \quad \left(n \in \mathbb{N}\right)\]
+
+\noindent So for whatever \( r > 1 \) we take, then for whatever bound, \(M\) you try to place on the sequence, you can find a term in the sequence such that \(\frac{r^n}{n}\) is greater than M.
+
+\[
+\text{Hence }  \frac{r^n}{n} \text{ is unbounded.}
+\]
+
+\[
+\text{So we get } \mathscr{C} = \left\{ r \in [0, 1] \right\} \implies R = 1 \quad \Box
+\]
+\hrulefill\newline
+\linebreak
+\noindent Alternatively, we could use the ratio test result obtained in tutorial 7, question 3 and compute:
+\[
+R = lim_{n \to \infty} \frac{\left| a_n \right|}{\left| a_{n+1} \right|}
+\]
+\[
+=  lim_{n \to \infty}  \frac{\frac{1}{n}}{\frac{1}{n+1}}
+\]
+\[
+= lim_{n \to \infty} \frac{n+1}{n} = 1
+\]
+\hrulefill
+\newline
+\linebreak
+\noindent \(\textbf{Solution (ii):}\) We now find \( \lambda(x) \text{ for } x \in \left(2-R, 2+ R\right) = \left(1,3\right)\):\newline
+\linebreak
+\noindent Since the power series has radius of convergence \(1\), it defines a holomorphic function on \(D(2;1)\) 
+\[\lambda(z) := \sum_{n=1}^{\infty} \frac{\left(z-2\right)^n}{n} = \left(z-2\right) + \frac{\left(z-2\right)^2}{2} + \frac{\left(z-2\right)^3}{3}\dots \qquad \textbf{(1)}\] 
+\noindent So for \(z \in D(2;1), \)
+\[\lambda^{\prime}(z) = 1 + z -2 + \left(z-2\right)^2 + \cdots =  S = 1 + \sum_{n=1}^{\infty} \left(z-2\right)^n \]
+\noindent Notice this is a geometric series as \(\left| z-2 \right| < 1 \), so we have:
+\[
+S = 1 + \frac{z-2}{1-\left(z-2\right)} = 1+ \frac{z-2}{3-z}
+\]
+\[
+=\frac{3-z}{3-z} + \frac{z-2}{3-z} = \frac{1}{3-z}
+\]
+\linebreak
+\noindent Restricting \( \lambda \) to \(\mathbb{R}\) we have \(x \in D(2;1) \cap \mathbb{R} = \left( 1,3 \right) \)
+
+\[\implies \lambda(x) = \sum_{n=1}^{\infty} \frac{\left(x-2\right)^n}{n} = \left(x-2\right) + \frac{\left(x-2\right)^2}{2} + \frac{\left(x-2\right)^3}{3}\dots \in \mathbb{R} \]
+
+\noindent So \(\lambda : \left(1,3\right) \to \mathbb{R}\) is a real valued function with:
+\[
+\lambda^{\prime}(x) = \frac{1}{3-x}
+\]
+
+\[
+\implies \lambda(x) = -ln\left|3-x\right| + C \quad \left(x \in \left(1,3\right)\right)
+\]
+\linebreak
+\noindent Notice that from \(\textbf{(1)}\) we have: \(\lambda(2) = 0 = -ln\left|1\right| + C = C \implies C = 0\)
+
+\[
+\implies \lambda(x) = -ln\left|3-x\right| \quad \text{ for } x \in \left(1,3\right)
+\]
+\[\]
+\hrulefill
+
+\end{document}
+
